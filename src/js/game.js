@@ -9,7 +9,7 @@ var Game = function() {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
     this.rotationVector = new THREE.Vector3(0, 0, 0);
-    this.positionVector = new THREE.Vector3(0, 0, 0);
+    this.positionVector = new THREE.Vector3(0, 0, -0.5);
 
     document.body.appendChild(this.renderer.domElement);
 
@@ -52,28 +52,28 @@ Game.prototype.render = function() {
         }
 
         if (this.keyboardState.pressed('A')) {
-            this.positionVector.x += 0.03;
-        } else if (this.keyboardState.pressed('D')) {
             this.positionVector.x -= 0.03;
+        } else if (this.keyboardState.pressed('D')) {
+            this.positionVector.x += 0.03;
         }
     } else {
         if (this.keyboardState.pressed('W')) {
-            this.rotationVector.x = -0.006;
+            this.rotationVector.x += -0.006;
         } else if (this.keyboardState.pressed('S')) {
-            this.rotationVector.x = 0.006;
+            this.rotationVector.x += 0.006;
         }
 
         if (this.keyboardState.pressed('A')) {
-            this.rotationVector.y = 0.006;
+            this.rotationVector.y += 0.006;
         } else if (this.keyboardState.pressed('D')) {
-            this.rotationVector.y = -0.006;
+            this.rotationVector.y += -0.006;
         }
     }
 
     if(this.keyboardState.pressed('left')) {
-        this.rotationVector.z = 0.001;
+        this.rotationVector.z += 0.005;
     } else if(this.keyboardState.pressed('right')) {
-        this.rotationVector.z = -0.001;
+        this.rotationVector.z += -0.005;
     }
 
     this.camera.translateX(this.positionVector.x);
