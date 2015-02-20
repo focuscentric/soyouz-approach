@@ -71,9 +71,13 @@ Game.prototype.render = function() {
     }
 
     if(this.keyboardState.pressed('left')) {
-        this.rotationVector.z += 0.0005;
+        this.rotationVector.z += 0.0001;
     } else if(this.keyboardState.pressed('right')) {
-        this.rotationVector.z += -0.0005;
+        this.rotationVector.z += -0.0001;
+    }
+
+    if(this.keyboardState.pressed('space')) {
+        this.positionVector.z += (this.keyboardState.pressed('shift') ? 0.02 : -0.02);
     }
 
     this.camera.translateX(this.positionVector.x);

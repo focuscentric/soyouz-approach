@@ -30,6 +30,8 @@ Keyboard.prototype.pressed = function(keyPressed) {
             var key = keys[i];
             if(key === 'shift') {
                 pressed = this.keyModifiers[key];
+            } else if(key === 'space') {
+                pressed = this.keyCodes[32];
             } else if(key === 'left') {
                 pressed = this.keyCodes[37];
             } else if(key === 'right') {
