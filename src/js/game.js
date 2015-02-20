@@ -58,22 +58,22 @@ Game.prototype.render = function() {
         }
     } else {
         if (this.keyboardState.pressed('W')) {
-            this.rotationVector.x += -0.006;
+            this.rotationVector.x += -0.0001;
         } else if (this.keyboardState.pressed('S')) {
-            this.rotationVector.x += 0.006;
+            this.rotationVector.x += 0.0001;
         }
 
         if (this.keyboardState.pressed('A')) {
-            this.rotationVector.y += 0.006;
+            this.rotationVector.y += 0.0001;
         } else if (this.keyboardState.pressed('D')) {
-            this.rotationVector.y += -0.006;
+            this.rotationVector.y += -0.0001;
         }
     }
 
     if(this.keyboardState.pressed('left')) {
-        this.rotationVector.z += 0.005;
+        this.rotationVector.z += 0.0005;
     } else if(this.keyboardState.pressed('right')) {
-        this.rotationVector.z += -0.005;
+        this.rotationVector.z += -0.0005;
     }
 
     this.camera.translateX(this.positionVector.x);
