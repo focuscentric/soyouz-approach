@@ -16,8 +16,6 @@ var Keyboard = function() {
 };
 
 Keyboard.prototype.onKeyChange = function(e, pressed) {
-    console.log('key down: ' + pressed);
-    console.log(e.keyCode);
     var keyCode = e.keyCode;
     this.keyCodes[keyCode] = pressed;
 
@@ -31,7 +29,11 @@ Keyboard.prototype.pressed = function(keyPressed) {
             var pressed = false;
             var key = keys[i];
             if(key === 'shift') {
-                pressed = this.modifiers[key];
+                pressed = this.keyModifiers[key];
+            } else if(key === 'left') {
+                pressed = this.keyCodes[37];
+            } else if(key === 'right') {
+                pressed = this.keyCodes[39];
             } else {
                 pressed = this.keyCodes[key.toUpperCase().charCodeAt(0)];
             }

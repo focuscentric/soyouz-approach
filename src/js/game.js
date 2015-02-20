@@ -4,9 +4,12 @@ var Game = function() {
     this.keyboardState = new Keyboard();
 
     this.scene = new THREE.Scene();
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 10000);
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
+
+    this.rotationVector = new THREE.Vector3(0, 0, 0);
+    this.positionVector = new THREE.Vector3(0, 0, 0);
 
     document.body.appendChild(this.renderer.domElement);
 
@@ -41,17 +44,47 @@ Game.prototype.update = function() {
 Game.prototype.render = function() {
     requestAnimationFrame(this.render.bind(this));
 
-    this.camera.position.z += 0.15;
+    if(this.keyboardState.pressed('shift')) {
+        if (this.keyboardState.pressed('W')) {
+            this.positionVector.y += 0.03;
+        } else if (this.keyboardState.pressed('S')) {
+            this.positionVector.y -= 0.03;
+        }
 
-    if (this.keyboardState.pressed('W')) {
-        this.camera.rotation.x -= 0.01;
-    } else if(this.keyboardState.pressed('S')) {
-        this.camera.rotation.x += 0.01;
-    } else if(this.keyboardState.pressed('A')) {
-        this.camera.rotation.y += 0.01;
-    } else if(this.keyboardState.pressed('D')) {
-        this.camera.rotation.y -= 0.01;
+        if (this.keyboardState.pressed('A')) {
+            this.positionVector.x += 0.03;
+        } else if (this.keyboardState.pressed('D')) {
+            this.positionVector.x -= 0.03;
+        }
+    } else {
+        if (this.keyboardState.pressed('W')) {
+            this.rotationVector.x = -0.006;
+        } else if (this.keyboardState.pressed('S')) {
+            this.rotationVector.x = 0.006;
+        }
+
+        if (this.keyboardState.pressed('A')) {
+            this.rotationVector.y = 0.006;
+        } else if (this.keyboardState.pressed('D')) {
+            this.rotationVector.y = -0.006;
+        }
     }
+
+    if(this.keyboardState.pressed('left')) {
+        this.rotationVector.z = 0.001;
+    } else if(this.keyboardState.pressed('right')) {
+        this.rotationVector.z = -0.001;
+    }
+
+    this.camera.translateX(this.positionVector.x);
+    this.camera.translateY(this.positionVector.y);
+    this.camera.translateZ(this.positionVector.z);
+
+    this.camera.rotateX(this.rotationVector.x);
+    this.camera.rotateY(this.rotationVector.y);
+    this.camera.rotateZ(this.rotationVector.z);
+
+
 
     this.renderer.render(this.scene, this.camera);
 };
