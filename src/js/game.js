@@ -26,15 +26,15 @@ var Game = function() {
 Game.prototype.init = function() {
     var light = new THREE.AmbientLight( 0xfefefe );
     this.scene.add( light );
+    var self = this;
 
     this.loader.load('/assets/station_spatial.json', function(geometry, meterials) {
-        var material = new THREE.MeshFaceMaterial(materials);
-        var station = new THREE.Mesh(geometry, material);
+        var station = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(meterials));
         station.name = 'station';
 
-        station.position.z = 20;
+        station.position.z = -5;
 
-        this.scene.add(station);
+        self.scene.add(station);
     });
 
     var sphere = new THREE.SphereGeometry(500, 60, 40);

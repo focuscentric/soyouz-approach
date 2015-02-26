@@ -1,0 +1,48 @@
+# Blender MTL File: 'station_spatial.blend'
+# Material Count: 5
+
+newmtl Panneau_solaire
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
+map_Kd /home/felix/Blender/Tuto/Soyouz Approach/soyouz-approach/textures/panneau_solair.png
+
+newmtl blanc_mat
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.162641 0.162641 0.162641
+Ks 0.093909 0.093909 0.093909
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl metal_reflect
+Ns 749.999996
+Ka 0.000000 0.000000 0.000000
+Kd 1.000000 1.000000 1.000000
+Ks 1.000000 1.000000 1.000000
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl noir
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.005755 0.005755 0.005755
+Ks 0.048223 0.048223 0.048223
+Ni 1.000000
+d 1.000000
+illum 2
+
+newmtl rouge
+Ns 96.078431
+Ka 0.000000 0.000000 0.000000
+Kd 0.640000 0.001030 0.000000
+Ks 0.000000 0.000000 0.000000
+Ni 1.000000
+d 1.000000
+illum 1
