@@ -8,8 +8,13 @@ var Game = function() {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
+    this.loader = new THREE.JSONLoader();
+
+
+
     this.rotationVector = new THREE.Vector3(0, 0, 0);
-    this.positionVector = new THREE.Vector3(0, 0, -0.5);
+    this.positionVector = new THREE.Vector3(0, 0, 0);
+    this.globalPositionVector = new THREE.Vector3(0, 0, 0);
 
     document.body.appendChild(this.renderer.domElement);
 
@@ -21,6 +26,16 @@ var Game = function() {
 Game.prototype.init = function() {
     var light = new THREE.AmbientLight( 0xfefefe );
     this.scene.add( light );
+
+    this.loader.load('/assets/station_spatial.json', function(geometry, meterials) {
+        var material = new THREE.MeshFaceMaterial(materials);
+        var station = new THREE.Mesh(geometry, material);
+        station.name = 'station';
+
+        station.position.z = 20;
+
+        this.scene.add(station);
+    });
 
     var sphere = new THREE.SphereGeometry(500, 60, 40);
     sphere.applyMatrix(new THREE.Matrix4().makeScale(-1, 1, 1));
@@ -43,6 +58,8 @@ Game.prototype.update = function() {
 
 Game.prototype.render = function() {
     requestAnimationFrame(this.render.bind(this));
+
+    this.positionVector.set(0, 0, 0);
 
     if(this.keyboardState.pressed('shift')) {
         if (this.keyboardState.pressed('W')) {
@@ -78,11 +95,19 @@ Game.prototype.render = function() {
 
     if(this.keyboardState.pressed('space')) {
         this.positionVector.z += (this.keyboardState.pressed('shift') ? 0.02 : -0.02);
+    } else {
+        this.positionVector.z = 0;
     }
 
-    this.camera.translateX(this.positionVector.x);
+    /*this.camera.translateX(this.positionVector.x);
     this.camera.translateY(this.positionVector.y);
-    this.camera.translateZ(this.positionVector.z);
+    this.camera.translateZ(this.positionVector.z);*/
+
+
+    this.globalPositionVector.add(
+        this.positionVector.applyQuaternion(this.camera.quaternion));
+    this.camera.position.add(this.globalPositionVector);
+
 
     this.camera.rotateX(this.rotationVector.x);
     this.camera.rotateY(this.rotationVector.y);
