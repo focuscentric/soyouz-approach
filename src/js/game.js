@@ -8,6 +8,8 @@ var Game = function() {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(window.innerWidth, window.innerHeight);
 
+    this.station = null;
+
     this.loader = new THREE.JSONLoader();
 
 
@@ -29,12 +31,12 @@ Game.prototype.init = function() {
     var self = this;
 
     this.loader.load('/assets/station_spatial.json', function(geometry, meterials) {
-        var station = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(meterials));
-        station.name = 'station';
+        self.station = new THREE.Mesh(geometry, new THREE.MeshFaceMaterial(meterials));
+        self.station.name = 'station';
 
-        station.position.z = -5;
+        self.station.position.z = -5;
 
-        self.scene.add(station);
+        self.scene.add(self.station);
     });
 
     var sphere = new THREE.SphereGeometry(500, 60, 40);
@@ -63,15 +65,15 @@ Game.prototype.render = function() {
 
     if(this.keyboardState.pressed('shift')) {
         if (this.keyboardState.pressed('W')) {
-            this.positionVector.y += 0.03;
+            this.positionVector.y += 0.001;
         } else if (this.keyboardState.pressed('S')) {
-            this.positionVector.y -= 0.03;
+            this.positionVector.y -= 0.001;
         }
 
         if (this.keyboardState.pressed('A')) {
-            this.positionVector.x -= 0.03;
+            this.positionVector.x -= 0.001;
         } else if (this.keyboardState.pressed('D')) {
-            this.positionVector.x += 0.03;
+            this.positionVector.x += 0.001;
         }
     } else {
         if (this.keyboardState.pressed('W')) {
@@ -94,7 +96,7 @@ Game.prototype.render = function() {
     }
 
     if(this.keyboardState.pressed('space')) {
-        this.positionVector.z += (this.keyboardState.pressed('shift') ? 0.02 : -0.02);
+        this.positionVector.z += (this.keyboardState.pressed('shift') ? 0.001 : -0.001);
     } else {
         this.positionVector.z = 0;
     }
@@ -103,10 +105,11 @@ Game.prototype.render = function() {
     this.camera.translateY(this.positionVector.y);
     this.camera.translateZ(this.positionVector.z);*/
 
-
-    this.globalPositionVector.add(
-        this.positionVector.applyQuaternion(this.camera.quaternion));
-    this.camera.position.add(this.globalPositionVector);
+    if(this.station) {
+        this.globalPositionVector.add(
+            this.positionVector.applyQuaternion(this.camera.quaternion).negate());
+        this.station.position.add(this.globalPositionVector);
+    }
 
 
     this.camera.rotateX(this.rotationVector.x);
